@@ -1,2 +1,2 @@
-# console_apps
-Projects with console interface
+# Console applications
+This repository contains useful applications with a console interface.
