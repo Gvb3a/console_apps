@@ -1,4 +1,5 @@
-def caesar_cipher(text, shift, settings):
+def caesar_cipher(text, shift, settings = {}):
+    shift = int(shift)
     result = ''
     upper_letter = settings.get('upper_letter', 'A')
     lower_letter = settings.get('lower_letter', 'a')
@@ -23,7 +24,7 @@ def caesar_cipher(text, shift, settings):
     return result
 
 
-def breaking_caesar_cipher(text, settings):
+def breaking_caesar_cipher(text, settings = {}):
     alphabet_size = settings.get('alphabet', 26)
     upper_letter = settings.get('upper_letter', 'A')
     lower_letter = settings.get('lower_letter', 'a')
@@ -41,8 +42,42 @@ def breaking_caesar_cipher(text, settings):
     return ''
 
 
+def visualization_caesar_cipher(text, shift, settings = {}):
+    shift = int(shift)
+    upper_letter = settings.get('upper_letter', 'A')
+    lower_letter = settings.get('lower_letter', 'a')
+    alphabet_size = settings.get('alphabet_size', 26)
+    format_text = settings.get('format_text', False)
+
+    if format_text:
+        text = text.upper()
+        text = ''.join([char for char in text if char.isalpha()])
+
+    for i in range(shift + 1):
+        shifted_text = ""
+        for char in text:
+            if char.isupper():
+                start = ord(upper_letter)
+                shifted_char = chr((ord(char) - start - i) % alphabet_size + start)
+            elif char.islower():
+                start = ord(lower_letter)
+                shifted_char = chr((ord(char) - start - i) % alphabet_size + start)
+            else:
+                shifted_char = char
+            shifted_text += shifted_char
+
+
+        spaced_text = " ".join(shifted_text)
+        print(f"{spaced_text}")
+
+        if i != shift:
+            arrows = " ".join(["↓" for _ in shifted_text])
+            print(f"{arrows}")
+
+
 def zigzag_cipher(text, key, settings = {}):
     result = ''
+    key = int(key)
     symbol_for_space = settings.get('symbol_for_space', 'X')
     if settings.get('format_text', False):
         text = text.upper()
@@ -101,3 +136,36 @@ def breaking_zigzag_cipher(text, settings):
     for i in range(2, len(text)):
         print(f'Rails {i}: {zigzag_decrypt(text, i)}')
     return ''
+
+
+def vigenere_cipher(text: str, key: str, settings: dict = {}):
+    upper_letter = settings.get('upper_letter', 'A')
+    alphabet_size = settings.get('alphabet_size', 26)
+
+    text = text.upper()
+    text = ''.join([char for char in text if char.isalpha()])
+
+    alphabet = [chr(ord(upper_letter) + i) for i in range(alphabet_size)]
+    encrypted_text = []
+
+    if key == int:
+        key = str(key)
+
+    if key.isdigit() or '-' in key:
+        if '-' in key:
+            key = key.split('-')
+        key = [alphabet[int(digit)] for digit in key] 
+        key = ''.join(key)
+    key = key.upper().replace(' ', '')
+    key_length = len(key)
+    
+    for i, char in enumerate(text.upper()):
+        if char in alphabet:
+            shift = alphabet.index(key[i % key_length])
+            encrypted_char = alphabet[(alphabet.index(char) + shift) % alphabet_size]
+            encrypted_text.append(encrypted_char)
+        else:
+            encrypted_text.append(char)
+    
+    return ''.join(encrypted_text)
+
