@@ -1,3 +1,6 @@
+from time import sleep
+
+# ================================<   Caesar cipher   >================================
 def caesar_cipher(text, shift, settings = {}):
     shift = int(shift)
     result = ''
@@ -52,7 +55,7 @@ def visualization_caesar_cipher(text, shift, settings = {}):
     if format_text:
         text = text.upper()
         text = ''.join([char for char in text if char.isalpha()])
-
+    
     for i in range(shift + 1):
         shifted_text = ""
         for char in text:
@@ -69,12 +72,14 @@ def visualization_caesar_cipher(text, shift, settings = {}):
 
         spaced_text = " ".join(shifted_text)
         print(f"{spaced_text}")
-
         if i != shift:
             arrows = " ".join(["↓" for _ in shifted_text])
             print(f"{arrows}")
+        sleep(0.2)
+# ================================<   Caesar cipher   >================================
 
 
+# ================================<   Zigzag cipher   >================================
 def zigzag_cipher(text, key, settings = {}):
     result = ''
     key = int(key)
@@ -136,8 +141,10 @@ def breaking_zigzag_cipher(text, settings):
     for i in range(2, len(text)):
         print(f'Rails {i}: {zigzag_decrypt(text, i)}')
     return ''
+# ================================<  Zigzag cipher  >================================
 
 
+# ================================< Vigenere cipher >================================
 def vigenere_cipher(text: str, key: str, settings: dict = {}):
     upper_letter = settings.get('upper_letter', 'A')
     alphabet_size = settings.get('alphabet_size', 26)
@@ -168,4 +175,4 @@ def vigenere_cipher(text: str, key: str, settings: dict = {}):
             encrypted_text.append(char)
     
     return ''.join(encrypted_text)
-
+# ================================< Vigenere cipher >================================
